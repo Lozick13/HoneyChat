@@ -1,31 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Input } from '../../UI/Inputs/Input';
+import { ButtonBase } from '../../UI/buttons/Button';
 import FormTemplate from '../../components/FormTemplate/FormTemplate';
 import LogoLoader from '../../components/LogoLoader/LogoLoader';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { userRequest } from '../../redux/slices/userSlice';
-import { ButtonBase } from '../../UI/buttons/Button';
-import { Input } from '../../UI/Inputs/Input';
-import './authpage.scss';
+import './signuppage.scss';
 
-const AuthPage = () => {
+const SignUpPage = () => {
   // hooks
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { userLoading, userError, auth } = useAppSelector(state => state.user);
 
   // states
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  // authentication, reset states
-  const handleAuth = async (e: React.FormEvent) => {
+  // registration, reset states
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await dispatch(userRequest({ email, password, method: 'login' }));
+    await dispatch(userRequest({ name, email, password, method: 'register' }));
   };
 
-  // redirect after successful login
+  //redirect after successful registration
   useEffect(() => {
     if (auth) {
       setEmail('');
@@ -35,6 +36,16 @@ const AuthPage = () => {
   }, [auth, navigate]);
 
   const inputs: Input[] = [
+    {
+      label: 'Имя',
+      id: 'name',
+      name: 'name',
+      value: name,
+      type: 'text',
+      change: (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value),
+      placeholder: 'Ваше Имя',
+      required: true,
+    },
     {
       label: 'Почта',
       id: 'email',
@@ -59,33 +70,33 @@ const AuthPage = () => {
   ];
 
   const buttons: ButtonBase[] = [
-    // entry
-    {
-      click: () => {},
-      text: 'Вход',
-    },
     // registration
     {
+      click: () => {},
+      text: 'Регистрация',
+    },
+    // entry
+    {
       click: () => {
-        navigate('/signup');
+        navigate('/auth');
       },
-      text: 'Ещё нет аккаунта?',
+      text: 'Уже есть аккаунт?',
       secondary: true,
     },
   ];
 
   return (
     <>
-      <main className="auth">
-        <div className="auth__header">
+      <main className="signup">
+        <div className="signup__header">
           <LogoLoader started={userLoading} />
-          <h1 className="auth__title">{userError ? userError : 'Добро Пожаловать!'}</h1>
+          <h1 className="signup__title">{userError ? userError : 'Мы Вам рады!'}</h1>
         </div>
 
-        <FormTemplate handleSubmit={handleAuth} inputs={inputs} buttons={buttons} />
+        <FormTemplate handleSubmit={handleSignUp} inputs={inputs} buttons={buttons} />
       </main>
     </>
   );
 };
 
-export default AuthPage;
+export default SignUpPage;

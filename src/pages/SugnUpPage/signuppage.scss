@@ -1,4 +1,4 @@
-.auth {
+.signup {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,6 +20,5 @@
   }
   &__logo {
     width: 50px;
-    transform: rotate(0deg);
   }
 }
