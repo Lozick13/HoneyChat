@@ -1,5 +1,6 @@
+import React from 'react';
+
 export interface Input {
-  label?: string;
   id: string;
   name: string;
   value: string | number;
@@ -9,4 +10,13 @@ export interface Input {
   placeholder?: string;
   required: boolean;
   disabled?: boolean;
+}
+
+export interface InputBase extends Input {
+  label?: string;
+}
+
+export interface InputChat extends Input {
+  leftElement?: React.ReactNode;
+  rightElement?: React.ReactNode;
 }

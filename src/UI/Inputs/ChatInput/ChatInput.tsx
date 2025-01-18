@@ -1,8 +1,9 @@
-import { InputBase } from '../Input';
-import './baseinput.scss';
+import { InputChat } from '../Input';
+import './chatinput.scss';
 
-const BaseInput = ({
-  label,
+const ChatInput = ({
+  leftElement,
+  rightElement,
   id,
   name,
   value,
@@ -12,13 +13,11 @@ const BaseInput = ({
   placeholder,
   required,
   disabled,
-}: InputBase) => {
+}: InputChat) => {
   return (
     <>
-      <div className="base-input">
-        <label htmlFor={id} className="base-input__label">
-          {label}
-        </label>
+      <div className="chat-input">
+        {leftElement}
         <input
           id={id}
           name={name}
@@ -29,11 +28,12 @@ const BaseInput = ({
           required={required}
           onChange={change}
           disabled={disabled}
-          className="base-input__place"
+          className="chat-input__place"
         />
+        {rightElement}
       </div>
     </>
   );
 };
 
-export default BaseInput;
+export default ChatInput;
