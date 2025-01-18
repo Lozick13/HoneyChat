@@ -14,4 +14,4 @@ const BaseButton = ({ click, text, secondary }: ButtonBase) => {
   );
 };
 
-export default BaseButton;ß
+export default BaseButton;
