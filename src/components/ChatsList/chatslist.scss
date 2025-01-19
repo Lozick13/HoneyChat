@@ -5,8 +5,8 @@
   border-radius: 20px;
   background-color: #fff;
   padding: 20px;
-  width: 350px;
-  height: 95vh;
+  min-width: 350px;
+  height: 100%;
 
   &__header {
     display: flex;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import IconButton from '../../UI/buttons/IconButton/IconButton';
 import ChatInput from '../../UI/Inputs/ChatInput/ChatInput';
-import ChatPreview from '../ChatPreview/ChatPreviw';
+import ChatMessage from '../ChatPreview/ChatPreviw';
 import './chatslist.scss';
 
 const ChatsList = () => {
@@ -31,7 +31,7 @@ const ChatsList = () => {
 
       <div className="chats-list__body">
         {Array.from({ length: 20 }).map((_, idx) => (
-          <ChatPreview
+          <ChatMessage
             key={idx}
             click={() => {}}
             avatar="./assets/honey-icon.png"

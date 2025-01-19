@@ -91,8 +91,11 @@ input[type='submit'] {
 
 input:focus,
 input:active,
+textarea:focus,
+textarea:active,
 button:focus,
 button:active {
+  background-color: transparent;
   outline: none;
 }
 
