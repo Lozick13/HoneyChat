@@ -5,7 +5,7 @@ export interface Input {
   name: string;
   value: string | number;
   type: string;
-  change: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  change: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   min?: number;
   placeholder?: string;
   required: boolean;
@@ -19,4 +19,5 @@ export interface InputBase extends Input {
 export interface InputChat extends Input {
   leftElement?: React.ReactNode;
   rightElement?: React.ReactNode;
+  textarea?: boolean;
 }

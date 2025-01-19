@@ -15,5 +15,9 @@
   }
   &__place {
     width: 100%;
+
+    &_textarea {
+      resize: none;
+    }
   }
 }
