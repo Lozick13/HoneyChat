@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header/Header';
 import { isTokenValid } from './helpers/token';
-import { useAppDispatch } from './hooks';
+import { useAppDispatch, useAppSelector } from './hooks';
 import AuthPage from './pages/AuthPage/AuthPage';
 import ChatsPage from './pages/ChatsPage/ChatsPage';
 import SignUpPage from './pages/SugnUpPage/SignUpPage';
@@ -10,6 +10,7 @@ import { setUser } from './redux/slices/userSlice';
 
 function App() {
   const dispatch = useAppDispatch();
+  const { id } = useAppSelector(state => state.user);
   const location = useLocation();
 
   // token validation, get data
@@ -18,11 +19,11 @@ function App() {
 
   // if the token is valid and contains data, set the user to Redux
   useEffect(() => {
-    if (tokenIsValid && tokenData) {
+    if (tokenIsValid && tokenData && !id) {
       const { id, name, email, chats } = tokenData;
       dispatch(setUser({ id, name, email, chats }));
     }
-  }, [tokenIsValid, tokenData, dispatch]);
+  }, [tokenIsValid, tokenData, dispatch, id]);
 
   // authorization check
   const requireAuth = (children: React.ReactNode) => {
