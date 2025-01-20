@@ -5,14 +5,14 @@ import LogoLoader from '../../components/LogoLoader/LogoLoader';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { userRequest } from '../../redux/slices/userSlice';
 import { ButtonBase } from '../../UI/buttons/Button';
-import { Input } from '../../UI/Inputs/Input';
+import { InputBase } from '../../UI/Inputs/Input';
 import './authpage.scss';
 
 const AuthPage = () => {
   // hooks
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { userLoading, userError, auth } = useAppSelector(state => state.user);
+  const { userLoading, userError, id } = useAppSelector(state => state.user);
 
   // states
   const [email, setEmail] = useState<string>('');
@@ -27,21 +27,22 @@ const AuthPage = () => {
 
   // redirect after successful login
   useEffect(() => {
-    if (auth) {
+    if (id) {
       setEmail('');
       setPassword('');
       navigate('/chats');
     }
-  }, [auth, navigate]);
+  }, [id, navigate]);
 
-  const inputs: Input[] = [
+  const inputs: InputBase[] = [
     {
       label: 'Почта',
       id: 'email',
       name: 'email',
       value: email,
       type: 'email',
-      change: (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value),
+      change: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setEmail(e.target.value),
       placeholder: 'Ваш Email',
       required: true,
     },
@@ -51,7 +52,8 @@ const AuthPage = () => {
       name: 'password',
       value: password,
       type: 'password',
-      change: (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+      change: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setPassword(e.target.value),
       min: 6,
       placeholder: 'Ваш пароль',
       required: true,

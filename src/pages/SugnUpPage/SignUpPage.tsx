@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input } from '../../UI/Inputs/Input';
+import { InputBase } from '../../UI/Inputs/Input';
 import { ButtonBase } from '../../UI/buttons/Button';
 import FormTemplate from '../../components/FormTemplate/FormTemplate';
 import LogoLoader from '../../components/LogoLoader/LogoLoader';
@@ -12,7 +12,7 @@ const SignUpPage = () => {
   // hooks
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { userLoading, userError, auth } = useAppSelector(state => state.user);
+  const { userLoading, userError, id } = useAppSelector(state => state.user);
 
   // states
   const [name, setName] = useState<string>('');
@@ -28,21 +28,22 @@ const SignUpPage = () => {
 
   //redirect after successful registration
   useEffect(() => {
-    if (auth) {
+    if (id) {
       setEmail('');
       setPassword('');
       navigate('/chats');
     }
-  }, [auth, navigate]);
+  }, [id, navigate]);
 
-  const inputs: Input[] = [
+  const inputs: InputBase[] = [
     {
       label: 'Имя',
       id: 'name',
       name: 'name',
       value: name,
       type: 'text',
-      change: (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value),
+      change: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setName(e.target.value),
       placeholder: 'Ваше Имя',
       required: true,
     },
@@ -52,7 +53,8 @@ const SignUpPage = () => {
       name: 'email',
       value: email,
       type: 'email',
-      change: (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value),
+      change: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setEmail(e.target.value),
       placeholder: 'Ваш Email',
       required: true,
     },
@@ -62,7 +64,8 @@ const SignUpPage = () => {
       name: 'password',
       value: password,
       type: 'password',
-      change: (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+      change: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setPassword(e.target.value),
       min: 6,
       placeholder: 'Ваш пароль',
       required: true,
