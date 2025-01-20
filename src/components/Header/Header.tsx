@@ -25,7 +25,14 @@ const Header = () => {
             text="Профиль"
             img="./assets/profile.svg"
           />
-          <ImgButton click={() => {}} color="#D68D17" img="./assets/log-out.svg" />
+          <ImgButton
+            click={() => {
+              localStorage.removeItem('token');
+              window.location.reload();
+            }}
+            color="#D68D17"
+            img="./assets/log-out.svg"
+          />
         </div>
       </header>
     </>
