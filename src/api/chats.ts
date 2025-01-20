@@ -1,15 +1,13 @@
 import { fetchAPI } from './fetchAPI';
 
-export const registerUser = async ({
-  name,
-  email,
-  password,
-}: {
-  name: string;
-  email: string;
-  password: string;
-}) => {
-  return fetchAPI('/user/register', 'POST', { name, email, password });
+export interface ChatPreview {
+  id: number;
+  title: string;
+  message: string;
+}
+
+export const getChatPreview = async (id: string) => {
+  return fetchAPI(`/chats/preview/${id}`, 'GET');
 };
 
 export const loginUser = async ({
