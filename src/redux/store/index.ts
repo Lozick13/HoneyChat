@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { saga } from '../saga';
+import chatsReducer from '../slices/chatsSlice';
 import userReducer from '../slices/userSlice';
 
 // saga middleware configuration, store
@@ -9,6 +10,7 @@ const store = configureStore({
   devTools: true,
   reducer: {
     user: userReducer,
+    chats: chatsReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
