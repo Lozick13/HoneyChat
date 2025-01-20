@@ -1,10 +1,19 @@
 import React from 'react';
 
+export type InputType =
+  | 'text'
+  | 'number'
+  | 'email'
+  | 'password'
+  | 'textarea'
+  | 'checkbox'
+  | 'radio';
+
 export interface Input {
   id: string;
   name: string;
   value: string | number;
-  type: string;
+  type: InputType;
   change: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   min?: number;
   placeholder?: string;
