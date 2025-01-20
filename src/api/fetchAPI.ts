@@ -1,4 +1,6 @@
 //fetchAPI for making HTTP requests
+import { URL } from './url';
+
 export const fetchAPI = async (url: string, method: string, body?: object) => {
   const response = await fetch(`${URL}${url}`, {
     method,
