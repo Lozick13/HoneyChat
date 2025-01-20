@@ -1,10 +1,22 @@
 import { useState } from 'react';
+import { ChatPreview } from '../../api/chats';
+import { useAppDispatch } from '../../hooks';
+import { setActiveChat } from '../../redux/slices/chatsSlice';
 import IconButton from '../../UI/buttons/IconButton/IconButton';
 import ChatInput from '../../UI/Inputs/ChatInput/ChatInput';
-import ChatMessage from '../ChatPreview/ChatPreviw';
+import ChatMessage from '../ChatPreview/ChatPreview';
+import LogoLoader from '../LogoLoader/LogoLoader';
 import './chatslist.scss';
 
-const ChatsList = () => {
+interface ChatsListProps {
+  loading: boolean;
+  error?: string;
+  chats: ChatPreview[];
+  activeChat?: string;
+}
+
+const ChatsList: React.FC<ChatsListProps> = ({ loading, error, chats, activeChat }) => {
+  const dispatch = useAppDispatch();
   const [searchData, setSearchData] = useState<string>('');
 
   return (
@@ -14,6 +26,7 @@ const ChatsList = () => {
         <IconButton icon="add_circle" click={() => {}} />
       </div>
 
+      {/* Поле ввода для поиска чатов */}
       <ChatInput
         leftElement={
           <label htmlFor="search-chat">
@@ -30,15 +43,23 @@ const ChatsList = () => {
       />
 
       <div className="chats-list__body">
-        {Array.from({ length: 20 }).map((_, idx) => (
-          <ChatMessage
-            key={idx}
-            click={() => {}}
-            avatar="./assets/honey-icon.png"
-            user={`User ${idx + 1}`}
-            message="Hello!"
-          />
-        ))}
+        {/* Отобразить сообщение о загрузке, если данные загружаются */}
+        {loading && <LogoLoader started />}
+        {/* Отобразить ошибку, если она присутствует */}
+        {error && <p className="error">{error}</p>}
+        {/* Отобразить чаты, если они загружены */}
+        {!loading && chats.length > 0
+          ? chats.map(chat => (
+              <ChatMessage
+                key={chat.id}
+                click={() => dispatch(setActiveChat(chat.id))}
+                avatar="./assets/honey-icon.png"
+                title={chat.title}
+                message={chat.message}
+                active={chat.id === activeChat}
+              />
+            ))
+          : !loading && <p>Чатов нет</p>}
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import { fetchAPI } from './fetchAPI';
 
 export interface ChatPreview {
-  id: number;
+  id: string;
   title: string;
   message: string;
 }

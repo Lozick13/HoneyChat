@@ -18,10 +18,11 @@
   }
   &__message {
     color: #888;
+    white-space: nowrap;
     font-size: 14px;
   }
 
-  &:hover {
+  &:hover, &_active {
     background: #ffffed;
   }
 }
