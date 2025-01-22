@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { ChatPreview } from '../../api/chats';
+import { ChatPreview as Chat } from '../../api/chats';
 import { useAppDispatch } from '../../hooks';
 import { setActiveChat } from '../../redux/slices/chatsSlice';
 import IconButton from '../../UI/buttons/IconButton/IconButton';
 import ChatInput from '../../UI/Inputs/ChatInput/ChatInput';
-import ChatMessage from '../ChatPreview/ChatPreview';
+import ChatPreview from '../ChatPreview/ChatPreview';
 import LogoLoader from '../LogoLoader/LogoLoader';
 import './chatslist.scss';
 
 interface ChatsListProps {
   loading: boolean;
   error?: string;
-  chats: ChatPreview[];
+  chats: Chat[];
   activeChat?: string;
 }
 
@@ -50,7 +50,7 @@ const ChatsList: React.FC<ChatsListProps> = ({ loading, error, chats, activeChat
         {/* Отобразить чаты, если они загружены */}
         {!loading && chats.length > 0
           ? chats.map(chat => (
-              <ChatMessage
+              <ChatPreview
                 key={chat.id}
                 click={() => dispatch(setActiveChat(chat.id))}
                 avatar="./assets/honey-icon.png"
