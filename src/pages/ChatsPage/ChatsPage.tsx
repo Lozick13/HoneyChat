@@ -20,7 +20,7 @@ const ChatsPage = () => {
 
   // get updated chat
   useEffect(() => {
-    socket.on('chat:update', ({ id }) => {
+    socket.on('chat:update', id => {
       dispatch(chatRequest(id));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
