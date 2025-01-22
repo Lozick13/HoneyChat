@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+import { socket } from '../../api/socketIo';
 import ChatsList from '../../components/ChatsList/ChatsList';
 import OpenChat from '../../components/OpenChat/OpenChat';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { chatsRequest } from '../../redux/slices/chatsSlice';
+import { chatRequest, chatsRequest } from '../../redux/slices/chatsSlice';
 import './chatspage.scss';
 
 const ChatsPage = () => {
@@ -12,9 +13,18 @@ const ChatsPage = () => {
     state => state.chats,
   );
 
+  // get init chats
   useEffect(() => {
     dispatch(chatsRequest(chatsId));
   }, [chatsId, dispatch]);
+
+  // get updated chat
+  useEffect(() => {
+    socket.on('chat:update', ({ id }) => {
+      dispatch(chatRequest(id));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket, dispatch]);
 
   return (
     <>
