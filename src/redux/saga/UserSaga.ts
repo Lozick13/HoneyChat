@@ -1,8 +1,16 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { put, retry, takeLatest } from 'redux-saga/effects';
-import { loginUser, registerUser } from '../../api/user';
+import { getAvatar, loginUser, registerUser, setAvatarById } from '../../api/user';
 import { decodedToken } from '../../helpers/token';
-import { setUser, userFailure, userRequest, userSuccess } from '../slices/userSlice';
+import {
+  avatarRequest,
+  setAvatar,
+  setAvatarRequest,
+  setUser,
+  userFailure,
+  userRequest,
+  userSuccess,
+} from '../slices/userSlice';
 import { retryCount, retryDelay } from './retrySettings';
 
 // user request processing
@@ -44,6 +52,41 @@ function* workerUserRequest(
   }
 }
 
+function* workerAvatarRequest() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('Токен не найден');
+
+    const data: number = yield retry(retryCount, retryDelay, getAvatar, token);
+
+    yield put(setAvatar(data));
+  } catch (error: unknown) {
+    if (error instanceof Error) yield put(userFailure(error.message));
+    else yield put(userFailure('Неизвестная ошибка'));
+  }
+}
+
+function* workerSetAvatarRequest(action: PayloadAction<number>) {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('Токен не найден');
+    const data: number = yield retry(
+      retryCount,
+      retryDelay,
+      setAvatarById,
+      token,
+      action.payload,
+    );
+
+    yield put(setAvatar(data));
+  } catch (error: unknown) {
+    if (error instanceof Error) yield put(userFailure(error.message));
+    else yield put(userFailure('Неизвестная ошибка'));
+  }
+}
+
 export function* watchUserSaga() {
   yield takeLatest(userRequest, workerUserRequest);
+  yield takeLatest(avatarRequest, workerAvatarRequest); // clear token on logout
+  yield takeLatest(setAvatarRequest, workerSetAvatarRequest); // clear token on logout
 }

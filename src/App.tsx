@@ -5,6 +5,7 @@ import { isTokenValid } from './helpers/token';
 import { useAppDispatch, useAppSelector } from './hooks';
 import AuthPage from './pages/AuthPage/AuthPage';
 import ChatsPage from './pages/ChatsPage/ChatsPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignUpPage from './pages/SugnUpPage/SignUpPage';
 import { setUser } from './redux/slices/userSlice';
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/" element={<Navigate to="/chats" replace />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/profile" element={requireAuth(<ProfilePage />)} />
         <Route path="/chats" element={requireAuth(<ChatsPage />)} />
       </Routes>
     </>

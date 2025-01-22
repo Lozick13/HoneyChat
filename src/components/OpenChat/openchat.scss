@@ -26,10 +26,10 @@
 
   &__body {
     display: flex;
-    justify-content: flex-end;
     flex-direction: column;
     gap: 20px;
-    overflow-y: scroll;
+    padding: 0 15px;
     height: 100%;
+    overflow-y: auto;
   }
 }

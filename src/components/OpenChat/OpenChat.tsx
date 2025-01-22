@@ -13,11 +13,12 @@ const OpenChat = () => {
   const { id } = useAppSelector(state => state.user);
   const { activeChat } = useAppSelector(state => state.chats);
   const [input, setInput] = useState<string>('');
-  const [chat, setChat] = useState<Chat>();
+  const [chat, setChat] = useState<Chat | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const getChat = async (id: string) => {
+    setChat(null);
     setLoading(true);
     setErrorMessage(null);
     try {

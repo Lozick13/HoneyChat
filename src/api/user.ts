@@ -5,7 +5,6 @@ export const loginUser = (email: string, password: string) => {
   return new Promise((resolve, reject) => {
     socket.emit('user:login', { email, password });
     socket.on('user:loginSuccess', data => {
-      console.log(data);
       resolve(data);
     });
     socket.on('error', error => {
@@ -23,6 +22,31 @@ export const registerUser = (name: string, email: string, password: string) => {
     });
     socket.on('user:registerError', error => {
       reject(new Error(error.message || 'Ошибка при регистрации'));
+    });
+  });
+};
+
+export const getAvatar = (token: string) => {
+  return new Promise((resolve, reject) => {
+    socket.emit('user:getProfilePicture', token);
+    socket.on('user:getProfilePictureSuccess', data => {
+      resolve(data);
+    });
+    socket.on('error', () => {
+      reject(0);
+    });
+  });
+};
+
+export const setAvatarById = (token: string, avatar: number) => {
+  return new Promise((resolve, reject) => {
+    socket.emit('user:setProfilePicture', token, avatar);
+    socket.on('user:setProfilePictureSuccess', data => {
+
+      resolve(data);
+    });
+    socket.on('error', () => {
+      reject(0);
     });
   });
 };

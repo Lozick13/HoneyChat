@@ -8,6 +8,8 @@ export interface DecodedToken {
   chats: string[];
 }
 
+
+
 // validation check
 export const isTokenValid = (
   token: string | null,

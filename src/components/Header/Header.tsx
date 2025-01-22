@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import ImgButton from '../../UI/buttons/ImgButton/ImgButton';
 import './header.scss';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <header className="header">
@@ -11,7 +14,7 @@ const Header = () => {
             <h1 className="header__title">HoneyChat</h1>
           </div>
           <ImgButton
-            click={() => {}}
+            click={() => navigate('/chats')}
             color="#D68D17"
             text="Чаты"
             img="./assets/chats.svg"
@@ -20,7 +23,7 @@ const Header = () => {
 
         <div className="header__block">
           <ImgButton
-            click={() => {}}
+            click={() => navigate('/profile')}
             color="#D68D17"
             text="Профиль"
             img="./assets/profile.svg"
