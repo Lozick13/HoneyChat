@@ -1,4 +1,17 @@
-import { fetchAPI } from './fetchAPI';
+import { socket } from './socketIo';
+
+export interface UserMessage {
+  id: string;
+  name: string;
+  avatar?: number;
+}
+
+export interface Message {
+  id: string;
+  user: UserMessage;
+  text: string;
+  time: string;
+}
 
 export interface ChatPreview {
   id: string;
@@ -6,16 +19,20 @@ export interface ChatPreview {
   message: string;
 }
 
-export const getChatPreview = async (id: string) => {
-  return fetchAPI(`/chats/preview/${id}`, 'GET');
-};
+export interface Chat {
+  id: string;
+  users: string[];
+  admin: string;
+  title: string;
+  messages: Message[];
+}
 
-export const loginUser = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  return fetchAPI('/user/login', 'POST', { email, password });
+// get chat preview
+export const getPreviewById = (id: string) => {
+  return new Promise(resolve => {
+    socket.emit('chat:getPreviewById', id);
+    socket.on('chat:getPreviewByIdSuccess', data => {
+      resolve(data);
+    });
+  });
 };

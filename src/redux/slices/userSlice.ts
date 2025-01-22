@@ -22,6 +22,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    // reducer to set user
     setUser: (
       state,
       action: PayloadAction<{ id: string; name: string; email: string; chats: string[] }>,
@@ -33,7 +34,7 @@ const userSlice = createSlice({
       state.email = email;
       state.chats = chats;
     },
-    // fetch reducers
+    // login or register
     userRequest: (
       state, // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _action: PayloadAction<{

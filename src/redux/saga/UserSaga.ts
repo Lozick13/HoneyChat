@@ -20,14 +20,14 @@ function* workerUserRequest(
 
     // login
     if (method === 'login') {
-      data = yield retry(retryCount, retryDelay, loginUser, { email, password });
+      data = yield retry(retryCount, retryDelay, loginUser, email, password);
     }
     // register
     else {
       const { name } = action.payload;
       // throws an error if the name is missing
       if (!name) throw new Error('Имя обязательно для регистрации');
-      data = yield retry(retryCount, retryDelay, registerUser, { name, email, password });
+      data = yield retry(retryCount, retryDelay, registerUser, name, email, password);
     }
 
     // token saving
@@ -39,10 +39,8 @@ function* workerUserRequest(
     yield put(setUser({ id, name, email, chats }));
     yield put(userSuccess());
   } catch (error: unknown) {
-    let errorMessage: string;
-    if (error instanceof Error) errorMessage = error.message;
-    else errorMessage = 'Неизвестная ошибка';
-    yield put(userFailure(errorMessage));
+    if (error instanceof Error) yield put(userFailure(error.message));
+    else yield put(userFailure('Неизвестная ошибка'));
   }
 }
 

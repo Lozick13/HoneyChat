@@ -1,23 +1,28 @@
-import { fetchAPI } from './fetchAPI';
+import { socket } from './socketIo';
 
-export const registerUser = async ({
-  name,
-  email,
-  password,
-}: {
-  name: string;
-  email: string;
-  password: string;
-}) => {
-  return fetchAPI('/user/register', 'POST', { name, email, password });
+// login
+export const loginUser = (email: string, password: string) => {
+  return new Promise((resolve, reject) => {
+    socket.emit('user:login', { email, password });
+    socket.on('user:loginSuccess', data => {
+      console.log(data);
+      resolve(data);
+    });
+    socket.on('error', error => {
+      reject(new Error(error.message || 'Ошибка при логине'));
+    });
+  });
 };
 
-export const loginUser = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  return fetchAPI('/user/login', 'POST', { email, password });
+// register
+export const registerUser = (name: string, email: string, password: string) => {
+  return new Promise((resolve, reject) => {
+    socket.emit('user:register', { name, email, password });
+    socket.on('user:registerSuccess', data => {
+      resolve(data);
+    });
+    socket.on('user:registerError', error => {
+      reject(new Error(error.message || 'Ошибка при регистрации'));
+    });
+  });
 };
