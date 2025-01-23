@@ -12,7 +12,6 @@ import './openchat.scss';
 const OpenChat = () => {
   const { id } = useAppSelector(state => state.user);
   const { activeChat } = useAppSelector(state => state.chats);
-
   const [input, setInput] = useState<string>('');
   const [chat, setChat] = useState<Chat | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,8 +33,6 @@ const OpenChat = () => {
           hour12: false,
         }),
       });
-      // update the chat after sending a message
-      await getChat(activeChat);
       setInput('');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -64,13 +61,17 @@ const OpenChat = () => {
     const handleChatUpdate = (id: string) => {
       getChat(id);
     };
-
     socket.on('chat:update', handleChatUpdate);
-    return () => {
-      socket.off('chat:update', handleChatUpdate);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
+
+  // scroll to bottom
+  useEffect(() => {
+    const chatBody = document.querySelector('.open-chat__body');
+    if (chatBody) {
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+  }, [chat]);
 
   // get chat on active chat
   useEffect(() => {

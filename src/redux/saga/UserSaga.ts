@@ -43,8 +43,8 @@ function* workerUserRequest(
     localStorage.setItem('token', token);
 
     // set user and success
-    const { id, name, chats } = decodedToken(token);
-    yield put(setUser({ id, name, email, chats }));
+    const { id, name } = decodedToken(token);
+    yield put(setUser({ id, name, email }));
     yield put(userSuccess());
   } catch (error: unknown) {
     if (error instanceof Error) yield put(userFailure(error.message));

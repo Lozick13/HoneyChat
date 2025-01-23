@@ -30,7 +30,7 @@ const chatsSlice = createSlice({
       );
     },
     // reducer to set active chat
-    setActiveChat: (state, action: PayloadAction<string>) => {
+    setActiveChat: (state, action: PayloadAction<string | undefined>) => {
       state.activeChat = action.payload;
     },
 

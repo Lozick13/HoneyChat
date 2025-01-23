@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Chat } from '../../api/chats';
+import { Chat, deleteUserById } from '../../api/chats';
 import { icons } from '../../api/icons';
 import { getUserInfoById } from '../../api/user';
 import { useAppSelector } from '../../hooks';
@@ -11,14 +11,15 @@ const ChatInfo = ({ chat }: { chat: Chat }) => {
   const [users, setUsers] = useState<{ id: string; avatar: number; name: string }[]>([]);
 
   // get information about users by id
-  const getUsers = async (userIds: string[]) => {
+  const getUsers = async (users: string[]) => {
     try {
-      const userPromise = userIds.map(async id => {
-        const data = (await getUserInfoById(id)) as { name: string; avatar: number };
-        return { ...data, id };
-      });
-      const usersData = await Promise.all(userPromise);
-      setUsers(usersData);
+      for (const id of users) {
+        const data: { avatar: number; name: string } = (await getUserInfoById(id)) as {
+          avatar: number;
+          name: string;
+        };
+        setUsers(prevUsers => [...prevUsers, { ...data, id }]);
+      }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       console.error('Ошибка при получении информации о пользователе:');
@@ -44,7 +45,12 @@ const ChatInfo = ({ chat }: { chat: Chat }) => {
           </div>
           <span className="chat-info__name">{user.name}</span>
           {userId === chat.admin && userId !== user.id && (
-            <IconButton icon="delete" click={() => {}} />
+            <IconButton
+              icon="delete"
+              click={() => {
+                deleteUserById(chat.id, user.id);
+              }}
+            />
           )}
         </div>
       ))}

@@ -67,3 +67,15 @@ export const getUserInfoById = (id: string) => {
     });
   });
 };
+
+export const getUserChats = (id: string) => {
+  return new Promise((resolve, reject) => {
+    socket.emit('user:getUserChats', id);
+    socket.on('user:getUserChatsSuccess', data => {
+      resolve(data);
+    });
+    socket.on('error', error => {
+      reject(error);
+    });
+  });
+};

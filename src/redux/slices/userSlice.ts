@@ -5,7 +5,6 @@ interface UserState {
   name: string;
   email: string;
   avatar: number;
-  chats: string[];
   userLoading: boolean;
   userError?: string;
 }
@@ -15,7 +14,6 @@ const initialState: UserState = {
   name: '',
   email: '',
   avatar: 0,
-  chats: [],
   userLoading: false,
   userError: undefined,
 };
@@ -27,23 +25,24 @@ const userSlice = createSlice({
     // reducer to set user
     setUser: (
       state,
-      action: PayloadAction<{ id: string; name: string; email: string; chats: string[] }>,
+      action: PayloadAction<{ id: string; name: string; email: string }>,
     ) => {
-      const { id, name, email, chats } = action.payload;
+      const { id, name, email } = action.payload;
 
       state.id = id;
       state.name = name;
       state.email = email;
-      state.chats = chats;
     },
+    // reducer to set  avatar
     setAvatar: (state, action: PayloadAction<number>) => {
       state.avatar = action.payload;
     },
-    // login or register
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    avatarRequest: _state => {},
+    // get avatar
+    avatarRequest: () => {},
+    // set avatar
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setAvatarRequest: (_state, _action: PayloadAction<number>) => {},
+    // login or register
     userRequest: (
       state, // eslint-disable-next-line @typescript-eslint/no-unused-vars
       _action: PayloadAction<{

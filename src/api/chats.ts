@@ -61,3 +61,8 @@ export const sendMessageById = (id: string, message: SentMessage) => {
     });
   });
 };
+
+export const deleteUserById = (id: string, userId: string) => {
+  socket.emit('chat:deleteUser', { id, userId });
+};
+
