@@ -7,10 +7,11 @@ import AvatarSelection from '../AvatarSelection/AvatarSelection';
 import './profileinfo.scss';
 
 const ProfileInfo = () => {
-  const { avatar, name } = useAppSelector(state => state.user);
+  const { avatar, name, id } = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
   const [avatarsOpen, setAvatarsOpen] = useState<boolean>(false);
 
+  // avatar request
   useEffect(() => {
     dispatch(avatarRequest());
   }, [dispatch]);
@@ -19,6 +20,7 @@ const ProfileInfo = () => {
     <>
       <section className="profile-info">
         <h2 className="profile-info__title">Профиль</h2>
+
         {!avatarsOpen && (
           <div className="profile-info__body">
             <div className="profile-info__img-container">
@@ -27,11 +29,12 @@ const ProfileInfo = () => {
             <div className="profile-info__text">
               <h3 className="profile-info__name">{name}</h3>
               <p className="profile-info__status">
-                Пригласительный код: <b>5555</b>
+                Пригласительный код: <b>{id.slice(0, 6)}</b>
               </p>
             </div>
           </div>
         )}
+
         {avatarsOpen && <AvatarSelection click={() => setAvatarsOpen(!avatarsOpen)} />}
         <BaseButton
           text={avatarsOpen ? 'В профиль' : 'Изменить аватарку'}

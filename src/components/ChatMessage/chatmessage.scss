@@ -6,11 +6,11 @@
   &__img-container {
     width: 50px;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
     background-color: #fff6ba;
-  }
-  &__img {
-    width: 30px;
   }
 
   &__info {

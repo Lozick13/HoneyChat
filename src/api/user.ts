@@ -26,6 +26,7 @@ export const registerUser = (name: string, email: string, password: string) => {
   });
 };
 
+// get user avatar
 export const getAvatar = (token: string) => {
   return new Promise((resolve, reject) => {
     socket.emit('user:getProfilePicture', token);
@@ -38,15 +39,31 @@ export const getAvatar = (token: string) => {
   });
 };
 
+// set user avatar
 export const setAvatarById = (token: string, avatar: number) => {
   return new Promise((resolve, reject) => {
     socket.emit('user:setProfilePicture', token, avatar);
-    socket.on('user:setProfilePictureSuccess', data => {
-
-      resolve(data);
-    });
+    socket.on(
+      'user:setProfilePictureSuccess',
+      (data: { id: string; name: string; avatar: number }) => {
+        resolve(data);
+      },
+    );
     socket.on('error', () => {
       reject(0);
+    });
+  });
+};
+
+// get user info
+export const getUserInfoById = (id: string) => {
+  return new Promise((resolve, reject) => {
+    socket.emit('user:getUserInfo', id);
+    socket.on('user:getUserInfoSuccess', data => {
+      resolve(data);
+    });
+    socket.on('error', error => {
+      reject(error);
     });
   });
 };

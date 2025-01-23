@@ -1,0 +1,37 @@
+.chat-info {
+  border: solid 2px #ddd;
+  border-radius: 20px;
+  padding: 7px;
+  background: #ffffff;
+  width: 200px;
+  height: 100%;
+  min-height: 100px;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__invite {
+    font-weight: 600;
+    font-size: 18px;
+  }
+  &__user {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+  &__img-container {
+    width: 35px;
+    padding: 7px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff6ba;
+  }
+  &__name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+}

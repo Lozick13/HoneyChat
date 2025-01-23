@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChatPreview as Chat } from '../../api/chats';
 import { useAppDispatch } from '../../hooks';
 import { setActiveChat } from '../../redux/slices/chatsSlice';
@@ -15,18 +16,23 @@ interface ChatsListProps {
   activeChat?: string;
 }
 
-const ChatsList: React.FC<ChatsListProps> = ({ loading, error, chats, activeChat }) => {
+const ChatsList = ({ loading, error, chats, activeChat }: ChatsListProps) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [searchData, setSearchData] = useState<string>('');
+
+  // setting up an active chat
+  const handleChatClick = (chatId: string) => {
+    dispatch(setActiveChat(chatId));
+  };
 
   return (
     <section className="chats-list">
       <div className="chats-list__header">
         <h2 className="chats-list__title">Чаты</h2>
-        <IconButton icon="add_circle" click={() => {}} />
+        <IconButton icon="add_circle" click={() => navigate('/create-channel')} />
       </div>
 
-      {/* Поле ввода для поиска чатов */}
       <ChatInput
         leftElement={
           <label htmlFor="search-chat">
@@ -43,16 +49,14 @@ const ChatsList: React.FC<ChatsListProps> = ({ loading, error, chats, activeChat
       />
 
       <div className="chats-list__body">
-        {/* Отобразить сообщение о загрузке, если данные загружаются */}
         {loading && <LogoLoader started />}
-        {/* Отобразить ошибку, если она присутствует */}
         {error && <p className="error">{error}</p>}
-        {/* Отобразить чаты, если они загружены */}
+
         {!loading && chats.length > 0
           ? chats.map(chat => (
               <ChatPreview
                 key={chat.id}
-                click={() => dispatch(setActiveChat(chat.id))}
+                click={() => handleChatClick(chat.id)}
                 avatar="./assets/honey-icon.png"
                 title={chat.title}
                 message={chat.message}

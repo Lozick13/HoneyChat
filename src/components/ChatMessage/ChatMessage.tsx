@@ -12,7 +12,7 @@ const ChatMessage = ({ avatar, user, message, time, owner }: ChatsListProps) => 
   return (
     <article className={`chat-message ${owner ? 'chat-message_owner' : ''}`}>
       <div className="chat-message__img-container">
-        <img className="chat-message__img" src={avatar} alt="Аватар" />
+        <img src={avatar} alt="Аватар" />
       </div>
       <div className="chat-message__info">
         <h3 className="chat-message__title">{user}</h3>
