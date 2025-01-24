@@ -17,8 +17,8 @@ const JoinChannelPage = () => {
     e.preventDefault();
 
     try {
-      await createChat(name, id); // Переходим на `await`, чтобы дождаться завершения
-      setError(''); // Сбрасываем ошибку только в случае успеха
+      await createChat(name, id);
+      setError('');
       navigate('/chats');
     } catch (error: unknown) {
       if (error instanceof Error) setError(error.message);
@@ -42,7 +42,7 @@ const JoinChannelPage = () => {
 
   const buttons: ButtonBase[] = [
     {
-      click: () => {}, // Здесь вы вызываете функцию, которая отправляет форму
+      click: () => {},
       text: 'Создать канал',
       type: 'submit',
     },
@@ -58,7 +58,7 @@ const JoinChannelPage = () => {
 
   return (
     <main className="create-chanel">
-      <h2 className="create-chanel__title">Создать канал</h2>
+      <h2 className="create-chanel__title">{error ? error : 'Создать канал'}</h2>
       <div className="create-chanel__container">
         <FormTemplate handleSubmit={handleAuth} inputs={inputs} buttons={buttons} />
         {error && <div className="error-message">{error}</div>}

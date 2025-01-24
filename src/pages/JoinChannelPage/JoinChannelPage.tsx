@@ -58,7 +58,7 @@ const JoinChannelPage = () => {
 
   return (
     <main className="create-chanel">
-      <h2 className="create-chanel__title">Добавить канал</h2>
+      <h2 className="create-chanel__title">{error ? error : 'Добавить канал'}</h2>
       <div className="create-chanel__container">
         <FormTemplate handleSubmit={handleAuth} inputs={inputs} buttons={buttons} />
         {error && <div className="error-message">{error}</div>}
