@@ -36,6 +36,7 @@ function App() {
   return (
     <>
       {!['/auth', '/signup'].includes(location.pathname) && <Header />}
+
       <Routes>
         <Route path="/" element={<Navigate to="/chats" replace />} />
         <Route path="/auth" element={<AuthPage />} />

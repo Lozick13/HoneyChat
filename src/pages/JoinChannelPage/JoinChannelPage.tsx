@@ -43,7 +43,7 @@ const JoinChannelPage = () => {
   const buttons: ButtonBase[] = [
     {
       click: () => {},
-      text: 'Присоединится',
+      text: 'Присоединиться',
       type: 'submit',
     },
     {
