@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# HoneyChat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+HoneyChat – это real-time чат, который позволяет обмениваться сообщениями в режиме реального времени.
 
-Currently, two official plugins are available:
+## Возможности
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Профиль пользователя**: Пользователи могут создавать свой профили.
+- **Изменение аватарок**: Возможность изменять аватарки.
+- **Создание новых чатов**: Пользователи могут создавать новые чаты с участниками.
+- **Присоединение к существующим чатам**: Присоединяйтесь к существующим чатам с помощью кода доступа, доступного только администратору, для обеспечения приватности.
+- **Управление участниками**: Администраторы могут удалять участников из чата.
+- **Поиск участников**: Отображение списка участников чата и возможность их поиска.
 
-## Expanding the ESLint configuration
+## Технологии
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Приложение разработано на следующих технологиях:
+- **React**
+- **Redux Toolkit**
+- **Redux Saga**
+- **Socket IO**
 
-- Configure the top-level `parserOptions` property like this:
+## Установка
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. Клонируйте репозиторий:
+   ```bash
+   git clone https://github.com/Lozick13/HoneyChat.git
+   ```
+2. Перейдите в каталог проекта:
+   ```bash
+   cd HoneyChat
+   ```
+3. Установите зависимости:
+   ```bash
+   npm install
+   ```
+4. Запустите приложение:
+   ```bash
+   npm run preview
+   ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Настройка проекта
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Вам необходимо настроить проект перед использованием. 
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### На фронтенде
+
+1. В файле `src/api/socketio.ts` указан URL бекенда по умолчанию. Убедитесь, что он соответствует вашему окружению:
+
+   ```typescript
+   export const URL = process.env.PATH || 'http://localhost:3000'; // поменяйте на ваш URL
+   ```
+
+### На бекенде
+
+1. В файле `config.ts` указан URL фронтенда по умолчанию и порт сервера. Убедитесь, что они соответствуют вашему окружению:
+
+   ```typescript
+   export const url = 'http://localhost:4173';
+   export const port = process.env.PORT ? process.env.PORT : 3000;
+   ```
+
+## Ссылки
+
+- [Ссылка на бекенд проекта](https://github.com/Lozick13/HoneyChat-Server)
+- [Демо версия приложения](https://honeychat.na4u.ru/auth)
