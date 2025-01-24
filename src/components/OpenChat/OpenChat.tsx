@@ -89,7 +89,10 @@ const OpenChat = () => {
           </div>
           {chatInfoVisible && chat && (
             <div className="open-chat__info">
-              <ChatInfo chat={chat} />
+              <ChatInfo
+                setVisible={(value: boolean) => setChatInfoVisible(value)}
+                chat={chat}
+              />
             </div>
           )}
 

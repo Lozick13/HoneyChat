@@ -7,7 +7,13 @@ import IconButton from '../../UI/buttons/IconButton/IconButton';
 import ChatInput from '../../UI/Inputs/ChatInput/ChatInput';
 import './chatinfo.scss';
 
-const ChatInfo = ({ chat }: { chat: Chat }) => {
+const ChatInfo = ({
+  chat,
+  setVisible,
+}: {
+  chat: Chat;
+  setVisible: (value: boolean) => void;
+}) => {
   const { id: userId } = useAppSelector(state => state.user);
   const [searchData, setSearchData] = useState<string>('');
   const [users, setUsers] = useState<{ id: string; avatar: number; name: string }[]>([]);
@@ -65,6 +71,7 @@ const ChatInfo = ({ chat }: { chat: Chat }) => {
               <IconButton
                 icon="delete"
                 click={() => {
+                  setVisible(false);
                   deleteUserById(chat.id, user.id);
                 }}
               />
