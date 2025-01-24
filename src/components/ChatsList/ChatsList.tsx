@@ -39,7 +39,7 @@ const ChatsList = ({ loading, error, chats, activeChat }: ChatsListProps) => {
               <ChatPreview
                 key={chat.id}
                 click={() => handleChatClick(chat.id)}
-                avatar="./assets/honey-icon.png"
+                avatar={chat.id.match(/\d/) ? Number(chat.id.match(/\d/)) : 0}
                 title={chat.title}
                 message={chat.message}
                 active={chat.id === activeChat}
