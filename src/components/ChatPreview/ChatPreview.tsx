@@ -10,7 +10,7 @@ const ChatPreview = ({
   click: () => void;
   avatar: string;
   title: string;
-  message: string;
+  message?: string;
   active?: boolean;
 }) => {
   return (
@@ -22,7 +22,7 @@ const ChatPreview = ({
       <div className="chat-preview__info">
         <h3 className="chat-preview__name">{title}</h3>
         <p className="chat-preview__message">
-          {message.length > 30 ? `${message.slice(0, 30)}...` : message}
+          {message && message.length > 30 ? `${message.slice(0, 30)}...` : message}
         </p>
       </div>
     </article>

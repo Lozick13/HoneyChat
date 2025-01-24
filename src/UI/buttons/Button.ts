@@ -1,6 +1,7 @@
 export interface Button {
   click?: () => void;
   text?: string;
+  type?: 'submit' | 'reset' | 'button';
 }
 
 export interface ButtonBase extends Button {

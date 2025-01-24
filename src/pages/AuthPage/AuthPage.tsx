@@ -64,6 +64,7 @@ const AuthPage = () => {
     // entry
     {
       click: () => {},
+      type: 'submit',
       text: 'Вход',
     },
     // registration
@@ -71,6 +72,7 @@ const AuthPage = () => {
       click: () => {
         navigate('/signup');
       },
+      type: 'button',
       text: 'Ещё нет аккаунта?',
       secondary: true,
     },

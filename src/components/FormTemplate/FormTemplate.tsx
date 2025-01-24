@@ -36,6 +36,7 @@ const FormTemplate: React.FC<Form> = ({ handleSubmit, inputs, buttons }) => {
             key={index}
             click={button.click}
             text={button.text}
+            type={button.type}
             secondary={button.secondary}
           />
         ))}

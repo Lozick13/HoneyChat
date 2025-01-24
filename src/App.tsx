@@ -5,6 +5,8 @@ import { isTokenValid } from './helpers/token';
 import { useAppDispatch, useAppSelector } from './hooks';
 import AuthPage from './pages/AuthPage/AuthPage';
 import ChatsPage from './pages/ChatsPage/ChatsPage';
+import CreateChannelPage from './pages/CreateChannelPage/CreateChannelPage';
+import JoinChannelPage from './pages/JoinChannelPage/JoinChannelPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignUpPage from './pages/SugnUpPage/SignUpPage';
 import { setUser } from './redux/slices/userSlice';
@@ -21,8 +23,8 @@ function App() {
   // if the token is valid and contains data, set the user to Redux
   useEffect(() => {
     if (tokenIsValid && tokenData && !id) {
-      const { id, name, email, chats } = tokenData;
-      dispatch(setUser({ id, name, email, chats }));
+      const { id, name, email } = tokenData;
+      dispatch(setUser({ id, name, email }));
     }
   }, [tokenIsValid, tokenData, dispatch, id]);
 
@@ -40,6 +42,8 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/profile" element={requireAuth(<ProfilePage />)} />
         <Route path="/chats" element={requireAuth(<ChatsPage />)} />
+        <Route path="/join-channel" element={requireAuth(<JoinChannelPage />)} />
+        <Route path="/create-channel" element={requireAuth(<CreateChannelPage />)} />
       </Routes>
     </>
   );

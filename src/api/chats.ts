@@ -66,3 +66,10 @@ export const deleteUserById = (id: string, userId: string) => {
   socket.emit('chat:deleteUser', { id, userId });
 };
 
+export const joinChat = (invite: string, userId: string) => {
+  socket.emit('chat:join', { invite, userId });
+};
+
+export const createChat = (name: string, userId: string) => {
+  socket.emit('chat:create', { name, userId });
+};

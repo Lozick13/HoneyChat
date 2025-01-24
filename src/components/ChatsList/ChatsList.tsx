@@ -30,7 +30,7 @@ const ChatsList = ({ loading, error, chats, activeChat }: ChatsListProps) => {
     <section className="chats-list">
       <div className="chats-list__header">
         <h2 className="chats-list__title">Чаты</h2>
-        <IconButton icon="add_circle" click={() => navigate('/create-channel')} />
+        <IconButton icon="add_circle" click={() => navigate('/join-channel')} />
       </div>
 
       <ChatInput

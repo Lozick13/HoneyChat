@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "vite",
+    "preview": "tsc -b && vite build && vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
