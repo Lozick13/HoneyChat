@@ -34,8 +34,8 @@ const OpenChat = () => {
         }),
       });
       setInput('');
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
+      console.error(error);
       setErrorMessage('Ошибка при отправке сообщения. Пожалуйста, попробуйте позже.');
     }
   };
@@ -48,8 +48,8 @@ const OpenChat = () => {
     try {
       const data: Chat = (await getChatById(id)) as Chat;
       setChat(data);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
+      console.error(error);
       setErrorMessage('Ошибка при загрузке чата. Пожалуйста, попробуйте позже.');
     } finally {
       setLoading(false);
@@ -62,8 +62,7 @@ const OpenChat = () => {
       getChat(id);
     };
     socket.on('chat:update', handleChatUpdate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket]);
+  }, []);
 
   // scroll to bottom
   useEffect(() => {
