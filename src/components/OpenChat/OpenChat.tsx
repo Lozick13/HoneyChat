@@ -7,6 +7,7 @@ import IconButton from '../../UI/buttons/IconButton/IconButton';
 import ChatInput from '../../UI/Inputs/ChatInput/ChatInput';
 import ChatInfo from '../ChatInfo/ChatInfo';
 import ChatMessage from '../ChatMessage/ChatMessage';
+import LogoLoader from '../LogoLoader/LogoLoader';
 import './openchat.scss';
 
 const OpenChat = () => {
@@ -96,7 +97,7 @@ const OpenChat = () => {
           )}
 
           <h2 className="open-chat__title">{chat?.title}</h2>
-          {loading && <p>Loading messages...</p>}
+          {loading && <LogoLoader started />}
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <div className="open-chat__body">
