@@ -7,7 +7,7 @@ import AvatarSelection from '../AvatarSelection/AvatarSelection';
 import './profileinfo.scss';
 
 const ProfileInfo = () => {
-  const { avatar, name, id } = useAppSelector(state => state.user);
+  const { avatar, name, email } = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
   const [avatarsOpen, setAvatarsOpen] = useState<boolean>(false);
 
@@ -29,7 +29,7 @@ const ProfileInfo = () => {
             <div className="profile-info__text">
               <h3 className="profile-info__name">{name}</h3>
               <p className="profile-info__status">
-                Пригласительный код: <b>{id.slice(0, 6)}</b>
+                Email: <b>{email}</b>
               </p>
             </div>
           </div>
