@@ -1,54 +1,83 @@
+import { Dispatch, UnknownAction } from '@reduxjs/toolkit/react';
 import { useEffect } from 'react';
 import { socket } from '../../api/socketIo';
 import { getUserChats } from '../../api/user';
 import ChatsList from '../../components/ChatsList/ChatsList';
 import OpenChat from '../../components/OpenChat/OpenChat';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { chatRequest, chatsRequest, setActiveChat } from '../../redux/slices/chatsSlice';
+import {
+  chatRequest,
+  chatsFailure,
+  chatsRequest,
+  setActiveChat,
+} from '../../redux/slices/chatsSlice';
 import './chatspage.scss';
 
-const ChatsPage = () => {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user);
-  const { chats, activeChat, chatsLoading, chatsError } = useAppSelector(
-    state => state.chats,
-  );
-  const getChats = async () => {
-    if (!user.id) return;
-    const chats = (await getUserChats(user.id)) as string[];
-    console.log(chats);
+// get chats
+const getChats = async (dispatch: Dispatch<UnknownAction>, userId: string) => {
+  if (!userId) return;
+
+  try {
+    const chats = (await getUserChats(userId)) as string[];
     dispatch(chatsRequest(chats));
-  };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      dispatch(chatsFailure(error.message));
+    } else {
+      dispatch(chatsFailure('Неизвестная ошибка'));
+    }
+  }
+};
 
+// hook for handling chat events
+const useChatEvents = (dispatch: Dispatch<UnknownAction>, userId: string) => {
   useEffect(() => {
-    getChats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id, dispatch]);
-
-  useEffect(() => {
-    const handleChatUpdate = async (id: string) => {
+    // chat update
+    const handleChatUpdate = (id: string) => {
       dispatch(chatRequest(id));
     };
-    socket.on('chat:update', handleChatUpdate);
 
-    const handleDeleteUserSuccess = (userId: string) => {
-      if (userId === user.id) {
+    // leave chat
+    const handleDeleteUserSuccess = (deletedUserId: string) => {
+      if (deletedUserId === userId) {
         dispatch(setActiveChat(undefined));
         socket.emit('chat:leaveChat', userId);
       }
     };
-    socket.on('chat:deleteUserSuccess', handleDeleteUserSuccess);
 
+    // update chats when leaving
     const handleLeaveChatSuccess = async () => {
-      await getChats();
+      getChats(dispatch, userId);
     };
+
+    socket.on('chat:update', handleChatUpdate);
+    socket.on('chat:deleteUserSuccess', handleDeleteUserSuccess);
     socket.on('chat:leaveChatSuccess', handleLeaveChatSuccess);
 
     return () => {
       socket.off('chat:update', handleChatUpdate);
       socket.off('chat:deleteUserSuccess', handleDeleteUserSuccess);
+      socket.off('chat:leaveChatSuccess', handleLeaveChatSuccess);
     };
-  }, [socket, dispatch, user]);
+  }, [dispatch, userId]);
+};
+
+// hook to get users chats
+const useFetchChats = (dispatch: Dispatch<UnknownAction>, userId: string) => {
+  useEffect(() => {
+    getChats(dispatch, userId);
+  }, [userId, dispatch]);
+};
+
+const ChatsPage = () => {
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector(state => state.user);
+  const { chats, activeChat, chatsLoading, chatsError } = useAppSelector(
+    state => state.chats,
+  );
+
+  useFetchChats(dispatch, id);
+  useChatEvents(dispatch, id);
 
   return (
     <main className="chats">
