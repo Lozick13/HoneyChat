@@ -4,10 +4,12 @@ import { icons } from '../../api/icons';
 import { getUserInfoById } from '../../api/user';
 import { useAppSelector } from '../../hooks';
 import IconButton from '../../UI/buttons/IconButton/IconButton';
+import ChatInput from '../../UI/Inputs/ChatInput/ChatInput';
 import './chatinfo.scss';
 
 const ChatInfo = ({ chat }: { chat: Chat }) => {
   const { id: userId } = useAppSelector(state => state.user);
+  const [searchData, setSearchData] = useState<string>('');
   const [users, setUsers] = useState<{ id: string; avatar: number; name: string }[]>([]);
 
   // get information about users by id
@@ -37,23 +39,38 @@ const ChatInfo = ({ chat }: { chat: Chat }) => {
       {userId === chat.admin && (
         <span className="chat-info__invite">{`Код комнаты: ${chat.id.slice(0, 6)}`}</span>
       )}
-
-      {users.map(user => (
-        <div key={user.id} className="chat-info__user">
-          <div className="chat-info__img-container">
-            <img src={icons[user.avatar]} alt={`Аватар пользователя ${user.name}`} />
+      <ChatInput
+        leftElement={<IconButton icon="search" />}
+        id="search-chat"
+        name="search-chat"
+        value={searchData}
+        type="text"
+        change={e => setSearchData(e.target.value)}
+        placeholder="Найти"
+        required
+      />
+      {users
+        .filter(
+          user =>
+            user.name.toLowerCase().includes(searchData.toLowerCase()) ||
+            user.id.slice(0, 6).toLowerCase().includes(searchData.toLowerCase()),
+        )
+        .map(user => (
+          <div key={user.id} className="chat-info__user">
+            <div className="chat-info__img-container">
+              <img src={icons[user.avatar]} alt={`Аватар пользователя ${user.name}`} />
+            </div>
+            <span className="chat-info__name">{user.name}</span>
+            {userId === chat.admin && userId !== user.id && (
+              <IconButton
+                icon="delete"
+                click={() => {
+                  deleteUserById(chat.id, user.id);
+                }}
+              />
+            )}
           </div>
-          <span className="chat-info__name">{user.name}</span>
-          {userId === chat.admin && userId !== user.id && (
-            <IconButton
-              icon="delete"
-              click={() => {
-                deleteUserById(chat.id, user.id);
-              }}
-            />
-          )}
-        </div>
-      ))}
+        ))}
     </article>
   );
 };
